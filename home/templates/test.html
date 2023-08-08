@@ -1,0 +1,32 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block title %}
+Autocomplete
+{% endblock %}
+
+{% block body %}
+    <form class="d-flex" role="search" action="{% url 'grid layout' %}" method="get">
+        <button style="margin-right: 5px;" class="btn btn-outline-success" type="submit">Search</button>
+        <input id="q" name="q" class="form-control me-2" type="search" placeholder="Search for Content" aria-label="Search">
+    </form>
+{% endblock %}
+
+        <script>
+            function seeResults() {
+                jQuery.ajax({
+                  type: 'POST',
+                  url: "\search\" + document.getElementById('q').value,
+                  processData: false,
+                  data: document.getElementById('q').value,
+                  success: function (response) {
+                    document.getElementById('results').innerHTML.append(`{% for result in response.results %}
+                                                                <li>{{result.firstname}}</li>
+                                                                {% endfor %}`);
+                          },
+                  error: function (response) {
+                    alert(response.responseJSON);
+                  }
+                })
+              };
+        </script>

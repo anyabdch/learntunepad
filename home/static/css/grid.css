@@ -1,0 +1,44 @@
+#content {
+    width: 90vw;
+    height: max-content;
+}
+
+#filter {
+    width: 80px;
+    margin: 0px 0px 26px 0px;
+}
+
+.item {
+     width: 300px;
+     margin: 15px;
+     text-align: center;
+}
+
+#myMenu:hover {
+    background: white;
+}
+
+#myMenu li:hover {
+    background: lightgray;
+}
+
+#opts {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+#overview {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 33vw;
+    margin: 0 auto;
+}
+
+#search {
+    margin: 10px 0px 30px 100vw;
+    width: 90 vw;
+    float: right;
+}
+
+

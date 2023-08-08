@@ -1,0 +1,109 @@
+{% extends "master.html" %}
+{% load static %}
+{% load home_extras %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/grid.css' %}">
+{% endblock %}
+
+{% block title %}
+    {{title}}
+{% endblock %}
+
+{% block header %}
+    <ul class="c1 outlined navbar myNav fixed-top bg-body-tertiary" role="menu">
+        <li class="nav-item"><strong>{{title}}</strong></li>
+        <a class="navbar-brand" href="/" style="color: #465572 !important;">
+            <i>TunePad</i>
+            <i class="fa-sharp fa-solid fa-house fa-lg"></i>
+        </a>
+    </ul>
+{% endblock %}
+
+{% block body %}
+    <div id="search" class="dib">
+        <form class="d-flex" style="display: flex;" role="search" action="{% url 'grid layout' %}" method="get">
+            <button style="margin-right: 5px;" class="btn btn-outline-success" type="submit">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+            <input id="q" name="q" class="form-control me-2" style="width: 20vw;" type="search" placeholder="Search for content..." aria-label="Search">
+        </form>
+    </div>
+    <div id="overview">
+        {{overview}}
+    </div>
+    <div id="opts">
+        {% if filters %}
+            <div id="filter">
+                <div class="btn-group">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                        Filter
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <ul id="myMenu" class="dropdown-item list-group list-group-flush" style="padding: 8px 2px;">
+                                <form id="filter-form" role="search" action="javascript:;" onsubmit="filterResults()" method="get">
+                                    {% for filter in filters %}
+                                        <li class="list-group-item">
+                                            <input class="form-check-input me-1 b" type="checkbox" name="{{forloop.count}}" value="{{filter.key}}" id="{{filter.key}}Checkbox">
+                                            <label class="form-check-label" for="{{filter.key}}Checkbox">{{filter.name}}</label>
+                                        </li>
+                                    {% endfor %}
+                                    <button style="margin-top: 10px;" class="btn btn-outline-success" type="submit" role="button">Apply</button>
+                                </form>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        {% endif %}
+        <div>
+            <a href="/g">
+                <button type="reset" class="btn btn-outline-danger" aria-label="reset">See all content</button>
+            </a>
+        </div>
+    </div>
+    <div id="content" class="dib">
+        {% if noresults %}
+            <br><br>
+            <h5 style="text-align: center;">We couldn't find what you were looking for. Please try again.</h5>
+        {% else %}
+            {% if search %}
+                <h5 style="text-align: center;">Showing results for: <u>{{search}}</u></h5>
+            {% endif %}
+            <div>
+            {% for x in collection %}
+                <div class="item dib">
+                    <a href="{{x.type}}{{x.slug}}">
+                        {% if x.project_id|isproject %}
+                            <img class="img" src="https://api.tunepad.com/api/projects/{{x.project_id}}/artwork/">
+                        {% else %}
+                            <img class="img" src="https://img.youtube.com/vi/{{x.project_id}}/0.jpg">
+                        {% endif %}
+                        <h2>{{x.title}}</h2>
+                        <p class="truncate">{{x.desc}}</p>
+                    </a>
+                </div>
+            {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        function filterResults(){
+                    $.ajax({
+                        url: '{% url 'set filters' %}',
+                        type: 'POST',
+                        data: $("#filter-form").serialize(),
+                        success: function(response){
+                                    $('#asynch').load("{% url 'set filters' loaded=1 %}");
+                                },
+                        error: function (response) {
+                                    alert(response.responseJSON);
+                                  }
+                    })
+                };
+    </script>
+{% endblock %}

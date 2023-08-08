@@ -1,0 +1,117 @@
+{% extends "master.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
+{% block title %}
+    Learn TunePad
+{% endblock %}
+
+{% block header %}
+    <div id="header" class="c1" style="display: flex; z-index: 1000;" >
+        <img class="logo" src="https://tunepad.com/assets/images/landing/logo-blue.svg">
+        <div class="center">
+            <h1 class="title">TunePad</h1>
+            <p>A TIDAL Lab project</p>
+        </div>
+    </div>
+    <nav id="navHome" class="c2 myNav outlined navbar fixed-top bg-body-tertiary">
+        {% for root in collections %}
+            <a class="nav-link" href="{{root.type}}{{root.slug}}">{{root.title}}</a>
+        {% endfor %}
+        <div class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" role="search" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">Search by Topic</a>
+                <ul id="search" class="dropdown-menu c2">
+                    <form class="d-flex" role="search" action="{% url 'grid layout' %}" method="get">
+                        <input id="q" name="q" class="form-control me-2" type="search" placeholder="Search..." aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                    <ul id="results">
+                    </ul>
+                </ul>
+        </div>
+        <a id="login" class="navbar-brand" href="#">
+            <i class="fa-solid fa-right-to-bracket fa-lg"></i>
+        </a>
+    </nav>
+{% endblock %}
+
+{% block body %}
+    <div id="homeOffset">
+        {% if not loggedin %}
+            <div class="sect center jc">
+                <div class="dib center">
+                    <h1 class="title"><u>Our Mission</u></h1>
+                    <p class="dib"><br>fwieilbsrelbgriwbgribgrei<br>wefofbwiboierboi</p>
+                    <h6 style="font-size: small;"><i>Read more about the team and other projects at </i><a href="https://tidal.northwestern.edu">TIDAL Lab</a></h6>
+                </div>
+                <div id="player" class="dib">
+                    <iframe title="vimeo-player" src="https://player.vimeo.com/video/398767736?h=4dfdd0f933" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+        {% endif %}
+        <h1 class="title" onmouseover="autoScroll(this);">Browse our Services</h1>
+        <div id="content" class="sect center jc">
+            {% for root in collections %}
+                {% with count=forloop.counter %}
+            <div data-tippy-root>
+              <div id={{forloop.counter}}
+                   class="tippy-box c2 dib opts center outlined"
+                   tabindex="0"
+                   data-tippy-placement="bottom"
+                   data-tippy-content="<div class='lib'>
+                                                {% for library in libraries %}
+                                                    {% if count == forloop.counter %}
+                                                        {% for item in library %}
+                                                            <a href='{{item.type}}{{item.slug}}'>
+                                                                <div style='width: 300px;'>
+                                                                    {% if count == 3 %}
+                                                                        <img class='img' src='https://img.youtube.com/vi/{{item.project_id}}/0.jpg'>
+                                                                    {% else %}
+                                                                        <img alt='outline of a woman with an afro and headphones one, eyes closed, rainbows flowing out of the headphones' class='img' src='https://api.tunepad.com/api/projects/{{item.project_id}}/artwork/'>
+                                                                    {% endif %}
+                                                                    <h5>{{item.title}}</h5>
+                                                                    <p>{{item.desc}}</p>
+                                                                </div>
+                                                            </a>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                {% endfor %}
+                                        </div>">
+                <div class="tippy-content">
+                  <div class="center">{{root.title}}</div>
+                </div>
+              </div>
+            </div>
+                {% endwith %}
+            {% endfor %}
+        </div>
+        <div id="portals" class="sect center">
+           <a href="https://tunepad.com/collection" target="_blank" role="button">
+               <div class="ed c1 outlined">Student Portal</div>
+           </a>
+            <a href="https://tunepad.com/products" target="_blank" role="button">
+            <div class="ed c1 outlined">Services for Educators</div>
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        tippy('.opts', {
+            allowHTML: true,
+            interactive: true,
+            maxWidth: 'None',
+            theme: 'TIDAL',
+            popperOptions: {
+                modifiers: [
+                    { name: 'flip',
+                      enabled: false }]},
+            });
+    </script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "master.html" %}
+{% load static %}
+{% load home_extras %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/embed.css' %}">
+{% endblock %}
+
+{% block title %}
+    {{video.title}}
+{% endblock %}
+
+{% block header %}
+    <ul class="c1 outlined navbar myNav fixed-top bg-body-tertiary" role="menu">
+        <li class="nav-item"> {{video.title}} </li>
+        <li>
+            <a class="navbar-brand" href="/" style="color: #465572 !important;">
+                    TunePad
+                    <i class="fa-sharp fa-solid fa-house fa-lg"></i>
+            </a>
+        </li>
+    </ul>
+    {% if not video.project_id|isproject %}
+        <div class="msg">
+            <div class="c1 center outlined">
+                <p>Want to follow along as you watch? <br> Open a new TunePad project:</p>
+                <a href="https://tunepad.com/collection" target="_blank">
+                    <button class="btn btn-success" onclick="hide(this.parentElement.parentElement.parentElement)">Create Project</button>
+                </a>
+                <br>
+                <a onclick="hide(this.parentElement.parentElement)" style="color: #465572 !important;"><u><i>No thanks</i></u></a>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if video.project_id|isproject %}
+        <div id="vid" class="dib">
+            <iframe width="1008" height="567" src="https://tunepad.com/project/{{video.project_id}}?embedded=true" title="TunePad embedded project"></iframe>
+        </div>
+    {% else %}
+        <div class="jc">
+            <div id="vid" class="jc">
+                <iframe width="1008" height="567" src="https://www.youtube.com/embed/{{video.project_id}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+            <div class="dib center">
+                <h3>Browse our collection</h3>
+                <div id="browse">
+                    {% for vid in collection %}
+                        <a href='/e/{{vid.slug}}'>
+                            <img class='dib img' src='https://img.youtube.com/vi/{{vid.project_id}}/0.jpg'>
+                            <h6>{{vid.title}}</h6>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endblock %}

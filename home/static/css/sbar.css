@@ -1,0 +1,85 @@
+.doc {
+    margin: -72px !important;
+    width: calc(100vw - 20%);
+}
+
+#foot {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+iframe {
+    width: 100%;
+    height: 100vh;
+}
+
+.lesson {
+    height: 30px;
+    width: 100%;
+    padding-bottom: 10px;
+    margin-bottom: 1.5px;
+    border-bottom: none;
+}
+
+@media screen and (max-width: 1056px) {
+  #side-offset {padding-left: 200px;}
+}
+
+#menu {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 30px;
+  z-index: 9000;
+}
+
+#menu-head {
+    overflow-y: hidden;
+    border-bottom: solid 2px;
+    border-right: none;
+    background: gray;
+    margin-bottom: 0px;
+    z-index: 1;
+    height: 32px;
+    width: 16%;
+    min-width: 169.2px;
+    z-index: 9001;
+}
+
+#ovw {
+    padding: 10px 0 0 1.25rem;
+    height: 50px;
+}
+
+#side-offset {
+    padding-left: 20%;
+    padding-top: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: calc(100vh - 40.8px);
+    width: calc(100vw - 20%);
+    overflow-y: auto;
+}
+
+#side-offset::-webkit-scrollbar{
+    display: none;
+  }
+
+.sidebar {
+  height: 94.1%; /* Full-height: remove this if you want "auto" height */
+  width: 16%;
+  min-width: 169.2px;
+  position: fixed;
+  padding-top: 3px;
+  left: 0;
+  border-radius: 0px;
+  border-top: solid black 2px;
+  border-right: solid black 1px;
+  background: gray;
+}
+
+#units {
+    padding: 0px;
+    margin: 0px;
+}

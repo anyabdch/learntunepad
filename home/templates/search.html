@@ -1,0 +1,7 @@
+{% for x in collection %}
+    <div class="item dib">
+        <a href="{{x.type}}{{x.slug}}"><button type="button" class="c2 img">{{x.slug}}</button></a>
+        <h2>{{x.title}}</h2>
+        <p>{{x.desc}}</p>
+    </div>
+{% endfor %}

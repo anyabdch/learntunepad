@@ -1,0 +1,11 @@
+#browse {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 500px;
+}
+
+#vid {
+    margin: 50px 10px 0px;
+    width: 100%;
+    text-align: center;
+}

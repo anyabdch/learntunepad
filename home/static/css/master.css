@@ -1,0 +1,177 @@
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    cursor: pointer;
+}
+
+header a {
+    color: floralwhite !important;
+}
+
+footer a {
+    color: floralwhite !important;
+}
+
+.art {
+    width: 200px;
+    height: auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: white;
+    position: relative;
+    height: max-content;
+}
+
+body::-webkit-scrollbar{
+    display: none;
+  }
+
+.c1 {
+    background: floralwhite;
+    color: #465572;
+}
+
+.c2 {
+    background: #465572;
+    color: floralwhite;
+}
+
+.center {
+    margin: auto !important;
+    text-align: center;
+}
+
+#copyright {
+    padding-top: 30px;
+    width: 80%;
+}
+
+.db {
+    display: block;
+    vertical-align: top;
+}
+
+.dib {
+    display: inline-block;
+    vertical-align: top;
+}
+
+footer {
+    border-top: solid black 2px;
+    width: 100vw;
+    height: max-content;
+    padding: 30px 5px;
+    text-align: center;
+    margin: 25px 0px 0px -5vw;
+    position: relative;
+}
+
+.hidden {
+    display: none !important;
+}
+
+html {
+    margin: 0px 0px;
+    scroll-behavior: smooth;
+    height: 100%;
+}
+
+header {
+    height: 100%;
+}
+
+.img {
+    width: 300px;
+    height: 300px;
+}
+
+.is-active {
+    background-color: rgba(30, 144, 255, 0.5);
+}
+
+.jc {
+    display: flex;
+    justify-content: space-around;
+}
+
+.logo {
+    width: auto;
+    height: 100%;
+    margin: 0px;
+    padding: 10px;
+    position: absolute;
+}
+
+.msg {
+    width: 100vw;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9000;
+    position: absolute;
+}
+
+.msg div {
+    width: max-content;
+    padding: 30px;
+    margin-top: 40vh;
+}
+
+.myNav {
+    left: 0px;
+    padding: 0px 10px;
+    list-style: none;
+    height: 40.8px;
+}
+
+.myNav a {
+    color: black;
+}
+
+#offset {
+    padding: 40.8px 5vw 0vh 5vw;
+    height: 100vh;
+    width: 100vw;
+}
+
+.outlined {
+    border: solid black !important;
+    border-width: 1px 0px 1px 1px !important;
+    box-shadow: 2px 2px 4px #465572;
+}
+
+p {
+    word-wrap: break-word;
+}
+
+p:hover {
+    cursor: default;
+}
+
+.title {
+    font-size: 40px;
+    margin: 0px;
+    color: #465572;
+    text-shadow: 1px 1px 3px #465572,
+                 -0.5px -0.5px 0 #000;
+}
+
+.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 7;
+}
+
+#ui-id-1 {
+    z-index: 2000;
+}
+
