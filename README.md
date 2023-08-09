@@ -11,11 +11,16 @@ Otherwise, just ensure your environment is set up correctly by following only th
 
 Rather than starting a new project, you'll need to pull the contents of this repo into that project environment. Essentially your layout should be:
 
-[yourproject]/ 
+[yourproject]/
+
       Include/ 
+      
       Lib/ 
+      
       Scripts/ 
+      
       [thisrepo]/ 
+      
       pyvenv.cfg 
 
 At this point you're just about set up! Most packages are included via CDN except treebeard, which you can find installation instructions and docs for at https://django-treebeard.readthedocs.io/en/latest/install.html
