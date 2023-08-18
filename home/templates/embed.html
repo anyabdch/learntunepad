@@ -21,35 +21,84 @@
         </li>
     </ul>
     {% if not video.project_id|isproject %}
-        <div class="msg">
+        <div id="activity" class="msg">
             <div class="c1 center outlined">
                 <p>Want to follow along as you watch? <br> Open a new TunePad project:</p>
                 <a href="https://tunepad.com/collection" target="_blank">
-                    <button class="btn btn-success" onclick="hide(this.parentElement.parentElement.parentElement)">Create Project</button>
+                    <button class="btn btn-success" onclick="toggleHide('activity')">Create Project</button>
                 </a>
                 <br>
-                <a onclick="hide(this.parentElement.parentElement)" style="color: #465572 !important;"><u><i>No thanks</i></u></a>
+                <a onclick="toggleHide('activity')" style="color: #465572 !important;"><u><i>No thanks</i></u></a>
+            </div>
+        </div>
+        <div id="widen" class="msg">
+            <div class="c1 center outlined">
+                <p>Your screen is a bit too small to view the full video! <br> Please widen your screen until this message disappears</p>
+            </div>
+        </div>
+    {% else %}
+        <div id="social" class="hidden msg">
+            <div class="c1 center outlined">
+                <h1>Share Activity...</h1>
+                <span style="margin: 0px;">
+                    <a href="#"><button>Email</button></a>
+                    <a href="#"><button>Google Drive?</button></a>
+                    <a href="#"><button>Where do kids like to share things?</button></a>
+                </span>
+                <button class="btn-success" onclick="toggleHide('social')">Done</button>
+            </div>
+        </div>
+        <div id="redirect" class="hidden msg">
+            <div class="c1 center outlined">
+                <h3>A new tab has opened with the activity</h3>
+                <button type="button" class="btn btn-success" onclick="toggleHide('redirect')">OK</button>
             </div>
         </div>
     {% endif %}
 {% endblock %}
 
 {% block body %}
-    {% if video.project_id|isproject %}
-        <div id="vid" class="dib">
-            <iframe width="1008" height="567" src="https://tunepad.com/project/{{video.project_id}}?embedded=true" title="TunePad embedded project"></iframe>
+    {% with id=video.project_id %}
+    {% if id|isproject %}
+        <div id="embeddedProject">
+            <div id='foot' class='navbar c2 outlined'>
+                <a href='https://tunepad.com/project/{{id}}' target="_blank" onclick="toggleHide('redirect')">
+                    <button class='navbar-brand btn-success'>Start Activity</button>
+                </a>
+                <h6>
+                    {{video.title}}
+                </h6>
+                <div id='opts'>
+                    <button class='btn-danger' onclick='printContent()'><i class='fa-solid fa-print'></i> Print</button>
+                    <button class='btn-info' onclick="toggleHide('social')"><i class='fa-solid fa-paper-plane'></i> Share</button>
+                </div>
+            </div>
+            <div id="vid" class="dib">
+                <iframe id='proj' height="567px" src="{% url 'proxy' data=id %}" title="TunePad embedded project"></iframe>
+            </div>
+            <div class='navbar' style="border-top: outset lightgray 1px;">
+                <a class="center" target="_blank" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">
+                    <img src="/static/images/license.png" class='navbar-brand'>
+                </a>
+                <p class="center" style='width: 60vw;'>
+                    TunePad was created by the TIDAL Lab at Northwestern University. This project was made possible with
+                    funding from the National Science Foundation (grants DRL-1612619, DRL‐1451762, and DRL-1837661) and
+                    the Verizon Foundation. Any findings or recommendations expressed in this project are those of the
+                    authors and do not necessarily reflect the views of our funders.
+                </p>
+            </div>
         </div>
     {% else %}
-        <div class="jc">
+        <div id="content" class="jc">
             <div id="vid" class="jc">
-                <iframe width="1008" height="567" src="https://www.youtube.com/embed/{{video.project_id}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <iframe width="1008" height="567" src="https://www.youtube.com/embed/{{id}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
-            <div class="dib center">
-                <h3>Browse our collection</h3>
+            <div class="center">
+                <h3 style="margin-top: 15px;">Browse our collection</h3>
                 <div id="browse">
                     {% for vid in collection %}
-                        <a href='/e/{{vid.slug}}'>
-                            <img class='dib img' src='https://img.youtube.com/vi/{{vid.project_id}}/0.jpg'>
+                        <a href='/e/{{vid.slug}}' style="margin: 5px;">
+                            <img class='dib img' src='https://img.youtube.com/vi/{{id}}/0.jpg'>
                             <h6>{{vid.title}}</h6>
                         </a>
                     {% endfor %}
@@ -57,4 +106,15 @@
             </div>
         </div>
     {% endif %}
+    {% endwith %}
 {% endblock %}
+
+{% if not video.project_id|isproject %}
+    {% block scripts %}
+        <script>
+            $(function(){
+                document.getElementsByTagName('body')[0].style.overflowY = "hidden";
+            })
+        </script>
+    {% endblock %}
+{% endif %}

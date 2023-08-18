@@ -1,7 +1,20 @@
-{% for x in collection %}
-    <div class="item dib">
-        <a href="{{x.type}}{{x.slug}}"><button type="button" class="c2 img">{{x.slug}}</button></a>
-        <h2>{{x.title}}</h2>
-        <p>{{x.desc}}</p>
-    </div>
-{% endfor %}
+{% load home_extras %}
+
+{% if noresults %}
+    <br><br>
+    <h5 style="text-align: center;">We couldn't find what you were looking for. Please try again.</h5>
+{% else %}
+    {% for x in collection %}
+        <div class="item dib">
+            <a href="{{x.type}}{{x.slug}}">
+                {% if x.project_id|isproject %}
+                    <img class="img" src="https://api.tunepad.com/api/projects/{{x.project_id}}/artwork/">
+                {% else %}
+                    <img class="img" src="https://img.youtube.com/vi/{{x.project_id}}/0.jpg">
+                {% endif %}
+                <h2>{{x.title}}</h2>
+                <p class="truncate">{{x.desc}}</p>
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}

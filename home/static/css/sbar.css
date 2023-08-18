@@ -1,12 +1,14 @@
 .doc {
     margin: -72px !important;
-    width: calc(100vw - 20%);
+    width: calc(100vw - 16vw);
+}
+
+#embeddedProject{
+    width: 80vw;
 }
 
 #foot {
     width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
 }
 
 iframe {
@@ -20,10 +22,6 @@ iframe {
     padding-bottom: 10px;
     margin-bottom: 1.5px;
     border-bottom: none;
-}
-
-@media screen and (max-width: 1056px) {
-  #side-offset {padding-left: 200px;}
 }
 
 #menu {
@@ -41,7 +39,7 @@ iframe {
     margin-bottom: 0px;
     z-index: 1;
     height: 32px;
-    width: 16%;
+    width: 16vw;
     min-width: 169.2px;
     z-index: 9001;
 }
@@ -51,14 +49,19 @@ iframe {
     height: 50px;
 }
 
+#proj {
+    width: 80vw;
+    height: 567px;
+}
+
 #side-offset {
-    padding-left: 20%;
-    padding-top: 15px;
+    margin-left: 11vw;
+    padding: 15px 15px 0px;
     display: flex;
     flex-direction: column;
     position: relative;
     height: calc(100vh - 40.8px);
-    width: calc(100vw - 20%);
+    width: calc(100vw - 16vw);
     overflow-y: auto;
 }
 
@@ -68,7 +71,7 @@ iframe {
 
 .sidebar {
   height: 94.1%; /* Full-height: remove this if you want "auto" height */
-  width: 16%;
+  width: 16vw;
   min-width: 169.2px;
   position: fixed;
   padding-top: 3px;
@@ -82,4 +85,11 @@ iframe {
 #units {
     padding: 0px;
     margin: 0px;
+}
+
+@media screen and (max-width: 1056px) {
+  #side-offset {
+        margin-left: calc(169.2px - 5vw);
+        width: calc(100vw - 169.2px);
+    }
 }

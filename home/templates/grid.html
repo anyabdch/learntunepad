@@ -33,30 +33,53 @@
         {{overview}}
     </div>
     <div id="opts">
-        {% if filters %}
-            <div id="filter">
+        <div>
+            {% if filters %}
+                <div id="filter" class="dib">
+                    <div class="btn-group">
+                        <button id="fb" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
+                            Filter
+                        </button>
+                        <ul class="dropdown-menu" style="padding-top: 4px;">
+                            <li>
+                                <ul class="myMenu dropdown-item list-group list-group-flush" style="padding: 0px 2px;">
+                                    <form id="filter-form" name="filter-form" role="search" action="javascript:;" onsubmit="filterResults()" method="POST">
+                                        {% csrf_token %}
+                                        {% for filter in filters %}
+                                            <li class="list-group-item">
+                                                <input for="filter-form" class="form-check-input me-1 b" type="checkbox" name="{{forloop.counter0}}" value={{filter.key}} id="{{filter.key}}Checkbox">
+                                                <label class="form-check-label" for="{{filter.key}}Checkbox">{{filter.name}}</label>
+                                            </li>
+                                        {% endfor %}
+                                        <button style="margin-top: 10px;" class="btn btn-outline-success" type="submit" role="button">Apply</button>
+                                        <button style="margin-top: 10px;" class="btn btn-outline-warning" type="reset" role="button" onclick="restore()">Reset</button>
+                                    </form>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+              <div id="sort" class="dib">
                 <div class="btn-group">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" data-bs-auto-close="false" aria-expanded="false">
-                        Filter
+                    <button id="sb" class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Sort By
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="padding: 0px;">
                         <li>
-                            <ul id="myMenu" class="dropdown-item list-group list-group-flush" style="padding: 8px 2px;">
-                                <form id="filter-form" role="search" action="javascript:;" onsubmit="filterResults()" method="get">
-                                    {% for filter in filters %}
-                                        <li class="list-group-item">
-                                            <input class="form-check-input me-1 b" type="checkbox" name="{{forloop.count}}" value="{{filter.key}}" id="{{filter.key}}Checkbox">
-                                            <label class="form-check-label" for="{{filter.key}}Checkbox">{{filter.name}}</label>
-                                        </li>
-                                    {% endfor %}
-                                    <button style="margin-top: 10px;" class="btn btn-outline-success" type="submit" role="button">Apply</button>
-                                </form>
+                            <ul class="myMenu dropdown-item list-group list-group-flush" style="padding: 8px 2px;">
+                                <li class="list-group-item" onclick="sort('title')">
+                                    Title <i class="fa-solid fa-arrow-up"></i>
+                                </li>
+                                <li class="list-group-item" onclick="sort('-title')">
+                                    Title <i class="fa-solid fa-arrow-down"></i>
+                                </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
             </div>
-        {% endif %}
+        </div>
         <div>
             <a href="/g">
                 <button type="reset" class="btn btn-outline-danger" aria-label="reset">See all content</button>
@@ -71,7 +94,7 @@
             {% if search %}
                 <h5 style="text-align: center;">Showing results for: <u>{{search}}</u></h5>
             {% endif %}
-            <div>
+            <div id="asynch">
             {% for x in collection %}
                 <div class="item dib">
                     <a href="{{x.type}}{{x.slug}}">
@@ -98,12 +121,29 @@
                         type: 'POST',
                         data: $("#filter-form").serialize(),
                         success: function(response){
-                                    $('#asynch').load("{% url 'set filters' loaded=1 %}");
+                                    $('#asynch').load("{% url 'populate' %}");
                                 },
                         error: function (response) {
                                     alert(response.responseJSON);
                                   }
                     })
                 };
+
+        function restore(){
+                    $('#asynch').load("{% url 'restore' %}");
+                };
+
+        function sort(val){
+                    $('#asynch').load("/order/"+val);
+                };
     </script>
+    {% if filters %}
+        <script>
+            $('#sb').mouseup(function(){
+                if(document.getElementById('fb').getAttribute('aria-expanded') == "true"){
+                    $('#fb').click();
+                }
+            });
+        </script>
+    {% endif %}
 {% endblock %}

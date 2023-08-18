@@ -15,7 +15,7 @@
         <li class="nav-item"><i><strong>{{curriculum.title}}</strong></i></li>
         <li id="head" class="nav-item" style="font-size: 20px;"><strong>Overview</strong></li>
         <li>
-            <a class="navbar-brand " href="/" style="color: #465572 !important;">
+            <a class="navbar-brand" href="/" style="color: #465572 !important;">
                     <i>TunePad</i>
                     <i class="fa-sharp fa-solid fa-house fa-lg"></i>
             </a>
@@ -42,13 +42,11 @@
                         <div id="flush-collapse{{forloop.counter}}" class="accordion-collapse collapse" data-bs-parent="#menu">
                           <ul id="units" class="list-group-flush">
                               {% for unit in lesson|children %}
-                                {% with project=unit.project_id %}
-                                {% if project %}
-                                    <button id="{{lesson.slug}}{{forloop.counter}}" class="list-group-item" style="width: 100%;" title="{{unit.title}}" name="{{project}}" onclick="populatePage(this)">{{unit.title}}</button>
+                                {% if unit.project_id %}
+                                    <button id="{{lesson.slug}}{{forloop.counter}}" class="list-group-item" style="width: 100%;" title="{{unit.title}}" name="{{unit.slug}}" onclick="populatePage(this)">{{unit.title}}</button>
                                 {% else %}
                                     <button id="{{lesson.slug}}{{forloop.counter}}" class="list-group-item" style="width: 100%;" title="{{unit.title}}" content="{{unit.text}}" onclick="populatePage(this)">{{unit.title}}</button>
                                 {% endif %}
-                                {% endwith %}
                               {% endfor %}
                           </ul>
                         </div>

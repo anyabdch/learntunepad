@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/proxy.css' %}">
+
+<iframe id="proj" src="https://tunepad.space/project/{{id}}?embedded=true&print=true" title="TunePad embedded project"></iframe>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+<script>
+    document.getElementById('proj').contentWindow.postMessage("request height", "*");
+    window.addEventListener(
+      "message",
+      (event) => {
+        if (event.data.success && event.data.height) {
+            document.getElementById('proj').style.height = event.data.height;
+        }
+      },
+      false,
+    );
+</script>
+</html>

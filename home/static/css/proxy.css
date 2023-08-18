@@ -1,0 +1,12 @@
+#proj {
+    width: 100vw;
+    height: 1000vh;
+    border: none;
+    outline: none;
+}
+
+html {
+ overflow-x: hidden;
+ overflow-y: auto;
+ height: 100vh;
+}
