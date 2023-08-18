@@ -1,10 +1,11 @@
 import json
-from django.shortcuts import render, get_object_or_404, get_list_or_404
-from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse, JsonResponse, request
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from .models import PlaylistNode
 from django.db.models import Q
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 # Create your views here.
 
@@ -25,33 +26,74 @@ queryset = PlaylistNode.objects.all().exclude(Q(depth=1) | Q(title__icontains="L
 filters = [{'name': 'Curriculum', 'key': 'urricul'},
            {'name': 'Activity Sets', 'key': 'ctivit'},
            {'name': 'Tutorials', 'key': 'utorial'}]
+history = []
 
 @csrf_exempt
-def filtersSet(request, loaded=0):
+def filtersSet(request):
     global queryset
     global filters
-    lst = []
-    temp = loader.get_template('search.html')
-    if loaded == 0:
-        for f in request.POST.values():
-            print(f)
-            lst.append(request.POST[f])
+    global history
+    if not history:
+        history = queryset
+    else:
+        queryset = history
+    lst =[]
+    for f in request.POST.values():
+        lst.append(f)
+    if filters[0]['name'] != 'Beginner':
         for filter in filters:
             key = filter['key']
             if key not in lst:
                 queryset = queryset.exclude(Q(title__icontains=key) | Q(desc__icontains=key))
-    return HttpResponse(temp.render({'collection' : queryset}, request))
+    else:
+        for filter in filters:
+            key = str(filter['key'])
+            if key not in lst:
+                queryset = queryset.exclude(ordering__icontains=key)
+    return HttpResponse('success')
+
+def filterPopulate(request):
+    context = {}
+    context['noresults'] = False
+    if not queryset:
+        context['noresults'] = True
+    else:
+        context['collection'] = queryset
+    temp = loader.get_template('search.html')
+    return HttpResponse(temp.render(context, request))
+
+
+def restore(request):
+    global queryset
+    if history:
+        queryset = history
+        context = {}
+        context['noresults'] = False
+        context['collection'] = history
+        temp = loader.get_template('search.html')
+        return HttpResponse(temp.render(context, request))
+
+def order(request, data):
+    global queryset
+    if queryset:
+        context = {}
+        context['noresults'] = False
+        context['collection'] = queryset.order_by(data)
+        temp = loader.get_template('search.html')
+        return HttpResponse(temp.render(context, request))
 
 
 @csrf_exempt
 def gridLayout(request, data=None, load=0):
     global queryset
     global filters
+    global history
+    history = []
     filters = [{'name': 'Curriculum', 'key': 'urricul'},
-               {'name': 'Activity Sets', 'key': 'ctivit'},
+               {'name': 'Activities', 'key': 'ctivit'},
                {'name': 'Tutorials', 'key': 'utorial'}]
     queryset = PlaylistNode.objects.get(title='Activity Sets').get_descendants() | PlaylistNode.objects.get(title='Tutorials').get_descendants() | PlaylistNode.objects.get(title='Curriculum').get_children()
-    queryset = queryset.order_by("title")
+    queryset = queryset.order_by('-numchild', 'title')
     temp = loader.get_template('grid.html')
     model = PlaylistNode
     context = {}
@@ -68,7 +110,7 @@ def gridLayout(request, data=None, load=0):
         queryset = target.get_children()
         context['title'] = target.title
         context['overview'] = target.desc
-        if "activity" in target.desc:
+        if "activity" in target.desc and target.depth != 1:
             filters = [{'name': 'Beginner', 'key': 0},
                        {'name': 'Intermediate', 'key': 1},
                        {'name': 'Advanced', 'key': 2}]
@@ -111,3 +153,8 @@ def embed(request, data):
     context = {'video' : target,
                'collection' : target.get_siblings().exclude(slug__icontains=data)}
     return HttpResponse(temp.render(context))
+
+@xframe_options_exempt
+def proxy(request, data=1200):
+    temp = loader.get_template('proxy.html')
+    return HttpResponse(temp.render({'id' : data}))

@@ -58,34 +58,34 @@
         <div id="content" class="sect center jc">
             {% for root in collections %}
                 {% with count=forloop.counter %}
-            <div data-tippy-root>
-              <div id={{forloop.counter}}
-                   class="tippy-box c2 dib opts center outlined"
-                   tabindex="0"
-                   data-tippy-placement="bottom"
-                   data-tippy-content="<div class='lib'>
-                                                {% for library in libraries %}
-                                                    {% if count == forloop.counter %}
-                                                        {% for item in library %}
-                                                            <a href='{{item.type}}{{item.slug}}'>
-                                                                <div style='width: 300px;'>
-                                                                    {% if count == 3 %}
-                                                                        <img class='img' src='https://img.youtube.com/vi/{{item.project_id}}/0.jpg'>
-                                                                    {% else %}
-                                                                        <img alt='outline of a woman with an afro and headphones one, eyes closed, rainbows flowing out of the headphones' class='img' src='https://api.tunepad.com/api/projects/{{item.project_id}}/artwork/'>
-                                                                    {% endif %}
-                                                                    <h5>{{item.title}}</h5>
-                                                                    <p>{{item.desc}}</p>
-                                                                </div>
-                                                            </a>
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                {% endfor %}
-                                        </div>">
-                <div class="tippy-content">
-                  <div class="center">{{root.title}}</div>
+                <div data-tippy-root>
+                    <div id={{forloop.counter}}
+                       class="tippy-box opts c2 dib center outlined"
+                       tabindex="0"
+                       data-tippy-content="<div class='lib'>
+                                                    {% for library in libraries %}
+                                                        {% if count == forloop.counter %}
+                                                            {% for item in library %}
+                                                                <a href='{{item.type}}{{item.slug}}'>
+                                                                    <div style='width: 300px;'>
+                                                                        {% if count == 3 %}
+                                                                            <img class='img' src='https://img.youtube.com/vi/{{item.project_id}}/0.jpg'>
+                                                                        {% else %}
+                                                                            <img alt='outline of a woman with an afro and headphones one, eyes closed, rainbows flowing out of the headphones' class='img' src='https://api.tunepad.com/api/projects/{{item.project_id}}/artwork/'>
+                                                                        {% endif %}
+                                                                        <h5>{{item.title}}</h5>
+                                                                        <p>{{item.desc}}</p>
+                                                                    </div>
+                                                                </a>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    {% endfor %}
+                                            </div>">
+                        <div class="tippy-content">
+                          <div class="center">{{root.title}}</div>
+                        </div>
+                        <div class="tippy-arrow"></div>
                 </div>
-              </div>
             </div>
                 {% endwith %}
             {% endfor %}
@@ -107,6 +107,7 @@
             allowHTML: true,
             interactive: true,
             maxWidth: 'None',
+            placement: 'bottom',
             theme: 'TIDAL',
             popperOptions: {
                 modifiers: [

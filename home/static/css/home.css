@@ -55,7 +55,6 @@ i {
     width: 25vw;
     height: 100px;
     padding: 20px;
-    margin: 10px;
     color: floralwhite;
 }
 
@@ -80,11 +79,4 @@ i {
 
 .sect div {
     margin: 10px;
-}
-
-.tippy-box[data-theme~='TIDAL'] {
-  background-color: #465572;
-  border: solid #465572 1px;
-  box-shadow: 0 4px 2px -2px #111111;
-  z-index: -100;
 }

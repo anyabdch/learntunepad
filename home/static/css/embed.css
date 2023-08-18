@@ -1,11 +1,49 @@
 #browse {
     overflow-y: scroll;
     overflow-x: hidden;
-    height: 500px;
+    height: 560px;
+    padding: 10px;
+}
+
+#foot {
+    width: 100%;
+    padding: 1px 10px;
+    margin-bottom: 10px;
+}
+
+#opts button {
+    margin: 5px;
+}
+
+#proj {
+    width: 90vw;
+    border: none;
+    outline: none;
 }
 
 #vid {
-    margin: 50px 10px 0px;
+    margin: 0px;
     width: 100%;
     text-align: center;
+}
+
+#widen {
+    display: none;
+}
+
+@media screen and (max-width: 840px) {
+    #widen {
+        display: block;
+    }
+}
+
+@media screen and (max-width: 1380px) {
+    #content {
+        display: block !important;
+    }
+    #browse {
+        display: flex;
+        overflow-x: scroll;
+        overflow-y: hidden;
+    }
 }

@@ -121,7 +121,9 @@ header {
 .msg div {
     width: max-content;
     padding: 30px;
-    margin-top: 40vh;
+    position: relative;
+    margin: auto !important;
+    top: 40vh;
 }
 
 .myNav {
@@ -175,3 +177,15 @@ p:hover {
     z-index: 2000;
 }
 
+.tippy-box[data-theme~='TIDAL'] {
+  background-color: #465572;
+  border: solid black 1px;
+  box-shadow: 0 4px 2px -2px #111111;
+  z-index: -100;
+  height: 100%;
+}
+
+.tippy-box[data-theme~='TIDAL'] > .tippy-arrow::before {
+  border-bottom-color: #465572;
+  transform: translate3d(4.8px, -10px, 0px);
+}

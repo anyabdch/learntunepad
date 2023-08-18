@@ -11,4 +11,9 @@ urlpatterns = [
     path('search', views.searchResults, name='search results'),
     path('filtered', views.filtersSet, name='set filters'),
     path('filtered/<int:loaded>', views.filtersSet, name='set filters'),
+    path('proxy/<int:data>', views.proxy, name='proxy'),
+    path('proxy', views.proxy, name='proxy'),
+    path('populate', views.filterPopulate, name='populate'),
+    path('restore', views.restore, name='restore'),
+    path('order/<str:data>', views.order, name='sort')
 ]

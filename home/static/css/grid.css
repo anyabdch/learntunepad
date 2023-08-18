@@ -14,11 +14,15 @@
      text-align: center;
 }
 
-#myMenu:hover {
+.myMenu:hover {
     background: white;
 }
 
-#myMenu li:hover {
+.myMenu li {
+    border-width: 0px 0px 1px;
+}
+
+.myMenu li:hover {
     background: lightgray;
 }
 
@@ -30,7 +34,6 @@
 
 #overview {
     text-align: center;
-    margin-bottom: 20px;
     width: 33vw;
     margin: 0 auto;
 }
