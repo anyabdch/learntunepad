@@ -38,9 +38,12 @@
     margin: 0 auto;
 }
 
+#q {
+    min-width: 171px;
+}
+
 #search {
     margin: 10px 0px 30px 100vw;
-    width: 90 vw;
     float: right;
 }
 

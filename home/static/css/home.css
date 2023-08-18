@@ -71,6 +71,7 @@ i {
 #search {
     padding: 15px;
     width: 20vw;
+    min-width: 179px;
 }
 
 .sect {

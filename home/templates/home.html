@@ -1,5 +1,6 @@
 {% extends "master.html" %}
 {% load static %}
+{% load home_extras %}
 
 {% block css %}
     <link rel="stylesheet" href="{% static 'css/home.css' %}">
@@ -61,6 +62,7 @@
                 <div data-tippy-root>
                     <div id={{forloop.counter}}
                        class="tippy-box opts c2 dib center outlined"
+                       onmouseover="cancelLink();"
                        tabindex="0"
                        data-tippy-content="<div class='lib'>
                                                     {% for library in libraries %}
@@ -71,7 +73,11 @@
                                                                         {% if count == 3 %}
                                                                             <img class='img' src='https://img.youtube.com/vi/{{item.project_id}}/0.jpg'>
                                                                         {% else %}
-                                                                            <img alt='outline of a woman with an afro and headphones one, eyes closed, rainbows flowing out of the headphones' class='img' src='https://api.tunepad.com/api/projects/{{item.project_id}}/artwork/'>
+                                                                            {% if item|children|length == 0 %}
+                                                                                <img alt='content coming soon' class='img soon' src='static/images/coming.jpg'>
+                                                                            {% else %}
+                                                                                <img alt='outline of a woman with an afro and headphones one, eyes closed, rainbows flowing out of the headphones' class='img' src='https://api.tunepad.com/api/projects/{{item.project_id}}/artwork/'>
+                                                                            {% endif %}
                                                                         {% endif %}
                                                                         <h5>{{item.title}}</h5>
                                                                         <p>{{item.desc}}</p>
@@ -114,5 +120,15 @@
                     { name: 'flip',
                       enabled: false }]},
             });
+    </script>
+    <script>
+        function cancelLink(){
+            let locked = document.getElementsByClassName('soon');
+            let i = 0;
+            while (i < locked.length){
+                locked[i].parentElement.parentElement.setAttribute("href", "javascript:;");
+                i++;
+                };
+            };
     </script>
 {% endblock %}
