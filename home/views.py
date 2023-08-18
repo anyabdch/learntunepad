@@ -1,6 +1,5 @@
-import json
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, JsonResponse, request
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.views.decorators.csrf import csrf_exempt
 from .models import PlaylistNode
@@ -41,13 +40,13 @@ def filtersSet(request):
     for f in request.POST.values():
         lst.append(f)
     if filters[0]['name'] != 'Beginner':
-        for filter in filters:
-            key = filter['key']
+        for filt in filters:
+            key = filt['key']
             if key not in lst:
-                queryset = queryset.exclude(Q(title__icontains=key) | Q(desc__icontains=key))
+                queryset = queryset.exclude(desc__icontains=key)
     else:
-        for filter in filters:
-            key = str(filter['key'])
+        for filt in filters:
+            key = str(filt['key'])
             if key not in lst:
                 queryset = queryset.exclude(ordering__icontains=key)
     return HttpResponse('success')
@@ -93,6 +92,7 @@ def gridLayout(request, data=None, load=0):
                {'name': 'Activities', 'key': 'ctivit'},
                {'name': 'Tutorials', 'key': 'utorial'}]
     queryset = PlaylistNode.objects.get(title='Activity Sets').get_descendants() | PlaylistNode.objects.get(title='Tutorials').get_descendants() | PlaylistNode.objects.get(title='Curriculum').get_children()
+    queryset = queryset.exclude(Q(depth=2) & Q(numchild=0) & ~Q(desc__icontains="utorial"))
     queryset = queryset.order_by('-numchild', 'title')
     temp = loader.get_template('grid.html')
     model = PlaylistNode
@@ -132,6 +132,7 @@ def landing(request):
 def searchResults(request):
     if 'term' in request.GET:
         query = PlaylistNode.objects.get(title='Activity Sets').get_descendants() | PlaylistNode.objects.get(title='Tutorials').get_descendants() | PlaylistNode.objects.get(title='Curriculum').get_children()
+        query = query.exclude(Q(depth=2) & Q(numchild=0) & ~Q(desc__icontains="utorial"))
         query = query.order_by("title")
         qs = query.filter(Q(title__icontains=request.GET.get('term')) | Q(desc__icontains=request.GET.get('term')))
         result = list()

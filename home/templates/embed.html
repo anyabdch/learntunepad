@@ -73,7 +73,7 @@
                     <button class='btn-info' onclick="toggleHide('social')"><i class='fa-solid fa-paper-plane'></i> Share</button>
                 </div>
             </div>
-            <div id="vid" class="dib">
+            <div id="emproj" class="dib">
                 <iframe id='proj' height="567px" src="{% url 'proxy' data=id %}" title="TunePad embedded project"></iframe>
             </div>
             <div class='navbar' style="border-top: outset lightgray 1px;">
@@ -109,12 +109,19 @@
     {% endwith %}
 {% endblock %}
 
-{% if not video.project_id|isproject %}
-    {% block scripts %}
-        <script>
-            $(function(){
-                document.getElementsByTagName('body')[0].style.overflowY = "hidden";
-            })
-        </script>
-    {% endblock %}
-{% endif %}
+
+{% block scripts %}
+    {% if not video.project_id|isproject %}
+            <script>
+                $(function(){
+                    document.getElementsByTagName('body')[0].style.overflowY = "hidden";
+                })
+            </script>
+    {% else %}
+            <script>
+                $(function(){
+                    document.getElementsByTagName('body')[0].style.overflowY = "auto";
+                })
+            </script>
+    {% endif %}
+{% endblock %}

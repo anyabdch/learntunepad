@@ -5,6 +5,12 @@
     padding: 10px;
 }
 
+#emproj {
+    margin: 0px;
+    width: 100%;
+    text-align: center;
+}
+
 #foot {
     width: 100%;
     padding: 1px 10px;
@@ -22,7 +28,7 @@
 }
 
 #vid {
-    margin: 0px;
+    margin: 50px 0px 0px;
     width: 100%;
     text-align: center;
 }
@@ -45,5 +51,6 @@
         display: flex;
         overflow-x: scroll;
         overflow-y: hidden;
+        height: max-content;
     }
 }
