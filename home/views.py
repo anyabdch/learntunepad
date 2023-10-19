@@ -148,6 +148,19 @@ def sidebarLayout(request, data):
     temp = loader.get_template('sidebar.html')
     return HttpResponse(temp.render({'curriculum' : target}))
 
+def curriculum(request, parent, child = None):
+    toc = get_object_or_404(PlaylistNode, slug=parent)
+    path = [ ]
+    if child is not None:
+        child = get_object_or_404(PlaylistNode, slug=child)
+        for anc in child.get_ancestors():
+            path.append(anc.slug)
+        path.append(child.slug)
+    temp = loader.get_template('curriculum.html')
+    print(path)
+    return HttpResponse(temp.render({'curriculum' : toc, 'content' : child, 'path' : path}))
+
+
 def embed(request, data):
     target = get_object_or_404(PlaylistNode, slug=data)
     temp = loader.get_template('embed.html')

@@ -1,0 +1,199 @@
+/*
+ * TunePad
+ * Northwestern University
+ * michael-horn@northwestern.edu
+ *
+ * This project was funded by the National Science Foundation (grant DRL-1612619).
+ * Any opinions, findings and conclusions or recommendations expressed in this
+ * material are those of the author(s) and do not necessarily reflect the views
+ * of the National Science Foundation (NSF).
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Source+Code+Pro&display=swap');
+
+:root {
+  --main-bg-color: #E8E8E8;
+  --active-color: #279DDB;
+  --main-font: 'Inter', sans-serif;
+  --code-font: 'Source Code Pro', monospace;
+  --warning-color: #2f9aef;
+}
+
+*, *:after, *:before {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body {
+  font-family: var(--main-font);
+  overscroll-behavior: none;
+  margin: 59px 0 0 0;
+}
+
+/*
+ * TOP NAVIGATION BAR
+ */
+nav.top-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 60px;
+  color: #000a;
+  background-color: #fdfdfd;
+  z-index: 900;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px 3em;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  font-size: 15px;
+  border-bottom: 1px solid #0003;
+}
+
+nav.top-nav .expander { flex: 1; }
+
+.top-nav .logo-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.top-nav a.home-logo {
+  width: 38px;
+  height: 38px;
+  background-image: url('../images/logo.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.top-nav a.home-link {
+  color: #000a;
+  padding: 0 1em;
+  font-weight: 700;
+  font-size: 17px;
+  text-decoration: none;
+}
+
+main {
+  display: flex;
+}
+
+.side-nav {
+  border-right: 1px solid #0003;
+  width: 300px;
+  height: calc(100vh - 60px);
+  overflow-y: auto;
+  position: sticky;
+  background-color: #fafafa;
+  padding-top: 1em;
+}
+
+ul.curriculum, ul.lessons {
+  list-style: none;
+  font-size: 14px;
+  color: #000a;
+  padding: 0em 0em 0em 2em;
+}
+
+ul.lessons {
+  display: none;
+}
+li.expanded ul.lessons {
+  display: block;
+}
+
+ul.curriculum li {
+  padding: 0.75em 0;
+  min-height: 3em;
+}
+
+ul.lessons li {
+  font-weight: normal;
+}
+
+li.highlight .expand-row a,
+ul.lessons li.highlight {
+  font-weight: bold;
+}
+
+ul.curriculum li a { 
+  text-decoration: none; 
+  cursor: pointer;
+  flex: 1;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  color: #000a;
+}
+ul.curriculum li a:hover { 
+  text-decoration: underline;
+}
+ul.curriculum li a:active { 
+  text-decoration: underline;
+  color: var(--active-color);
+}
+
+.expand-row {
+  display: flex;
+}
+
+
+button.expand-button {
+  width: 2em;
+  height: 2em;
+  margin-right: 1em;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  border-radius: 8px;
+  position: relative;
+  top: -0.25em;
+}
+li.expanded button.expand-button {
+  transform: rotate(90deg);
+}
+
+button.expand-button:hover {
+  background-color: #0004;
+}
+
+button.expand-button:active {
+  background-color: #0002;
+}
+
+article#content {
+  flex: 1;
+  overflow-y: auto;
+  height: calc(100vh - 60px);
+  padding: 2em 5em;
+}
+
+article#content.external-content {
+  padding: 0;
+}
+
+.project-iframe {
+  width: 100%;
+  border: none;
+  outline: none;
+  height: 100%;
+}
+
+.video-iframe {
+  aspect-ratio: 16 / 9;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.welcome-logo {
+  width: 400px;
+  height: 400px;
+  opacity: 0.5;
+  background-image: url('../images/logo.svg');
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
