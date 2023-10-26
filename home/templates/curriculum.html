@@ -1,0 +1,117 @@
+{% load static %}
+{% load home_extras %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+  <link rel="stylesheet" href="{% static 'css/curriculum.css' %}">
+  <title>{{curriculum.title}}</title>
+</head>
+<body>
+  <header>
+    <nav class="top-nav">
+      <div class="logo-wrapper">
+        <a class="home-logo" href="/"></a>
+        <a class="home-link" href="/">TunePad Learn</a>
+      </div>
+      <div class="expander"></div>
+      {{curriculum.title}}
+    </nav>
+  </header>
+  <main>
+    <nav role="menu" class="side-nav">
+      <ul class="curriculum">
+      {% for lesson in curriculum|children %}
+        <li id="item-{{ lesson.slug }}"{% if lesson.slug in path %} class="expanded highlight"{% endif %}>
+          <div class="expand-row">
+            
+            <a href="/t/{{ curriculum.slug }}/{{ lesson.slug }}">{{ lesson.title }}</a>
+            {% if lesson|children|length > 0 %}
+            <button class="expand-button" data-target="item-{{ lesson.slug }}">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            {% endif %}
+          </div>
+          {% if lesson|children|length > 0 %}
+          <ul class="lessons">
+            {% for unit in lesson|children %}
+            <li {% if unit.slug in path %} class="highlight"{% endif %}>
+              <a href="/t/{{ curriculum.slug }}/{{ unit.slug }}">{{ unit.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+      </ul>
+    </nav>
+
+    <article id="content">
+      <div class="welcome-logo"></div>
+    </article>
+  </main>
+  <script src="https://kit.fontawesome.com/07b338ef67.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    let expanders = document.querySelectorAll('.expand-button');
+    for (let button of expanders) {
+      button.addEventListener('click', (e) => {
+        const b = e.currentTarget;
+        const target = b.attributes.getNamedItem('data-target').value;
+        const item = document.getElementById(target);
+        item.classList.toggle('expanded');
+      })
+    }
+
+    async function loadMarkdown(url) {
+      console.log(url);
+      const response = await fetch(url);
+      const md = await response.text();
+      const body = document.getElementById('content');
+      if (body instanceof HTMLElement) body.innerHTML = marked.parse(md, { gmf : true });
+    }
+
+    async function loadHTML(url) {
+      console.log(url);
+      const response = await fetch(url);
+      const md = await response.text();
+      const body = document.getElementById('content');
+      if (body instanceof HTMLElement) {
+        body.classList.add('external-content');
+        body.innerHTML = md;
+      }
+    }
+
+    function loadVideo(url) {
+      const body = document.getElementById('content');
+      if (body instanceof HTMLElement) {
+        body.innerHTML = "<iframe class='video-iframe' width='640' height='360' src='" + url + "'></iframe>";
+      }
+    }
+
+    function loadTunePad(project_id) {
+      const url = "https://tunepad.space/project/" + project_id + "?embedded=true";
+      const body = document.getElementById('content');
+      if (body instanceof HTMLElement) {
+        body.classList.add('external-content');
+        body.innerHTML = "<iframe class='project-iframe' src='" + url + "'></iframe>";
+      }
+    }
+
+    {% if content %}
+      {% if content.url and content.type == 'md' %}
+    loadMarkdown("{{ content.url }}");
+      {% elif content.url and content.type == 'html' %}
+    loadHTML("{{ content.url }}");
+      {% elif content.url and content.type == 'video' %}
+    loadVideo("{{ content.url }}");
+      {% elif content.project_id %}
+    loadTunePad({{ content.project_id }});
+      {% endif %}
+    {% endif %}
+    //https://raw.githubusercontent.com/TIDAL-Lab/TopCodes/master/README.md
+  </script>
+</body>
+</html>
